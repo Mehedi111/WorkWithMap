@@ -19,12 +19,19 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.clustering.ClusterManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private GoogleMapOptions options;
-    private PolylineOptions polylineOptions;
+    private List<MarkerItem> items = new ArrayList<>();
+    private ClusterManager<MarkerItem> clusterManager;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .replace(R.id.map_container, mapFragment);
         fragmentTransaction.commit();
-        polylineOptions = new PolylineOptions();
+
         mapFragment.getMapAsync(this);
 
 
@@ -50,19 +57,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        clusterManager = new ClusterManager<MarkerItem>(this, mMap);
+        mMap.setOnCameraIdleListener(clusterManager);
+        mMap.setOnMarkerClickListener(clusterManager);
+
         checkedPermission();
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-        LatLng myPlace = new LatLng(23.753632, 90.3792723);
+       /* LatLng myPlace = new LatLng(23.753632, 90.3792723);
         mMap.addMarker(new MarkerOptions().position(myPlace).title("My Home"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPlace,17));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPlace,17));*/
 
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                mMap.clear();
-                mMap.addMarker(new MarkerOptions().position(latLng));
+
+                items.add(new MarkerItem(latLng, "SELECTED","Place"));
+                clusterManager.addItems(items);
+                clusterManager.cluster();
             }
         });
 
