@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:title="LikelyHood place"
+        android:id="@+id/current_place"
+        app:showAsAction="never" />
+
+    <item android:title="Place picker"
+        android:id="@+id/place_picker"
+        app:showAsAction="never" />
+
+    <item android:title="Autocomplete Place"
+        android:id="@+id/autocomplete_place"
+        app:showAsAction="never" />
+
+</menu>

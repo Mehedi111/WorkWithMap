@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Work With Map</string>
     <string name="map_key">AIzaSyCDDV-OIfliLVo3QrW9rlosyVzG4BWYEKs</string>
+    <string name="googlePlaceKey">AIzaSyCr7us4l5BxlgMjPX5uOD34ju2k5ojP4LM</string>
 </resources>
